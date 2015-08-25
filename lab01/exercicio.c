@@ -11,12 +11,8 @@ typedef struct _No {
     struct  _No *prox;
 } No;
 
-int MTFadicionar(int num);
-int MTFremover(int num);
-int MTFprocurar(int num);
-int TRadicionar(int num);
-int TRremover(int num);
-int TRprocurar(int num);
+void moveToFront(No *pos);
+void transpose(No *pos);
 
 No*  criarNo(int num);
 void destruirNo(No *no);
@@ -24,7 +20,7 @@ void printNo(No* p);
 void listarLista(No* inicio);
 void duplicarLista(No *inicio, No **inicioNovo);
 void insereNoInicioLista(No *novo, No **inicio);
-void insereNoFinalLista(No *novo, No *pos);
+void insereNoFinalLista(No *novo, No **inicio);
 char procurarElemento(int elemProc, No *lista, No **antNoProc, No **noProc);
 char procurarFinalLista(No *pos, No *lista);
 char inserirNoAntesElemento(int elem, No *novo, No **lista);
@@ -36,72 +32,13 @@ void limpaLista(No *inicio);
 
 /* SEU PROGRAMA - MAIN */
 int main() {
-    No *p = NULL, *inicio = NULL, *inicioDuplicado = NULL;
-    No *retorno = NULL;
-
     
-    p = criarNo(10);
-    printNo(p);
-    insereNoInicioLista(p, &inicio);
-    p = criarNo(15);
-    printNo(p);
-    insereNoInicioLista(p, &inicio);
-    p = criarNo(20);
-    printNo(p);
-    insereNoFinalLista(p, inicio);
-    p = criarNo(50);
-    printNo(p);
-    insereNoFinalLista(p, inicio);
-    
-    p = criarNo(90);
-    printNo(p);
-    if(inserirNoAntesElemento(20, p, &inicio)){
-        printf("Inseriu\n");
-    }else{
-        printf("Nao encontrou elemento\n");
-    }
-
-    duplicarLista(inicio, &inicioDuplicado);
-    listarLista(inicio);
-
-    if(removeNoInicioLista(&inicio, &retorno)){
-        printf("Elemento removido  -> ");
-        printNo(retorno);
-    }else{
-        printf("Nao encontrou elemento\n");
-    }
-
-    if(removeNoFinalLista(&inicio, &retorno)){
-        printf("Elemento removido  -> ");
-        printNo(retorno);
-    }else{
-        printf("Nao encontrou elemento\n");
-    }
-
-    if(removeNo(90, &inicio, &retorno)){
-        printf("Elemento removido  -> ");
-        printNo(retorno);
-    }else{
-        printf("Nao encontrou elemento\n");
-    }
-
-    printf("--------Lista 1---------------\n");
-    listarLista(inicio);
-    printf("--------Lista Duplicada ------\n");
-    listarLista(inicioDuplicado);
-
-    limpaLista(inicioDuplicado);
-    limpaLista(inicio);
     return 0;
 }
 
 /* IMPLEMENTAÇÃO DAS FUNÇÕES DE SUA TAD */
-int MTFadicionar(int num);
-int MTFremover(int num);
-int MTFprocurar(int num);
-int TRadicionar(int num);
-int TRremover(int num);
-int TRprocurar(int num);
+void moveToFront(No *pos);
+void transpose(No *pos);
 
 /* implementação de outras funções */
 No* criarNo(int num){
@@ -129,9 +66,7 @@ void listarLista(No* inicio){
 
 void duplicarLista(No *inicio, No **inicioNovo){
     No *aux = NULL,  *ant = NULL;
-    /* Dando erro  */
-    printf("--------------------------------------------------------------\n");
-        
+    
     while(inicio != NULL){
         ant = inicio;
         inicio = (*inicio).prox;
@@ -140,10 +75,9 @@ void duplicarLista(No *inicio, No **inicioNovo){
         printNo(aux);
 
         /* erro na funcao de incluir no final  */
-        insereNoInicioLista(aux, inicioNovo);
+        insereNoFinalLista(aux, inicioNovo);
     }
     listarLista((*inicioNovo));
-    printf("--------------------------------------------------------------\n");
 }
 
 void printNo(No* p){
@@ -166,10 +100,12 @@ void insereNoInicioLista(No *novo, No **inicio){
     }
 }
 
-void insereNoFinalLista(No *novo, No *pos){
+void insereNoFinalLista(No *novo, No **inicio){
+    No *pos = (*inicio);
+    
     /*Caso a lista eseja vazia*/
     if(pos == NULL){
-        insereNoInicioLista(novo, &pos);
+        insereNoInicioLista(novo, inicio);
     }else{
         /* Percorre a lista ate o ultimo No*/
         while((*pos).prox != NULL)
