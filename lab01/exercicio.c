@@ -128,19 +128,22 @@ void listarLista(No* inicio){
 }
 
 void duplicarLista(No *inicio, No **inicioNovo){
-    No *aux;
-    if(inicio != NULL){
-        /* Dando erro  */
-        printf("--------------------------------------------------------------\n");
-        while((*inicio).prox != NULL){
-            aux = criarNo((*inicio).elem);
-            printNo(aux);
-            insereNoFinalLista(aux, (*inicioNovo));
-            listarLista((*inicioNovo));
-            inicio = (*inicio).prox;
-        }
-        printf("--------------------------------------------------------------\n");
-    }        
+    No *aux = NULL,  *ant = NULL;
+    /* Dando erro  */
+    printf("--------------------------------------------------------------\n");
+        
+    while(inicio != NULL){
+        ant = inicio;
+        inicio = (*inicio).prox;
+        
+        aux = criarNo((*ant).elem);
+        printNo(aux);
+
+        /* erro na funcao de incluir no final  */
+        insereNoInicioLista(aux, inicioNovo);
+    }
+    listarLista((*inicioNovo));
+    printf("--------------------------------------------------------------\n");
 }
 
 void printNo(No* p){
