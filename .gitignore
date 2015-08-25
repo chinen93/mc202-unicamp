@@ -1,0 +1,7 @@
+#ignore aux folders, temp files
+aux/
+*~
+#*
+*/lab*
+#don't ignore c files
+!*.c
