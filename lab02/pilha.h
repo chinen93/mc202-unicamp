@@ -11,31 +11,29 @@ typedef struct Node{
     struct Node *next;
 } Node;
 
-/* Type Queue:
-   :Node* address of the head of Queue
-   :Node* address of the tail of Queue
+/* Type Stack:
+   :Node* address of the head of Stack
+   :Node* address of the tail of Stack
 */
-typedef struct Queue{
+typedef struct Stack{
     struct Node *head;
     struct Node *tail;
-} Queue;
+} Stack;
 
-/* Functions to create types Node and Queue */
-Queue* createQueue();
+/* Functions to create types Node and Stack */
+Stack* createStack();
 Node*  createNode(int info);
-void   destroyQueue(Queue *queue);
+void   destroyStack(Stack *stack);
 void   destroyNode(Node *node);
-char   isQueueEmpty(Queue *queue);
+char   isStackEmpty(Stack *stack);
+void   printStack(Stack *stack);
 
+/* Functions to use Stack with type Node parameters */
+void   pushNode(Node *new, Stack *stack);
+Node*  popNode(Stack *stack);
 
-/* Functions to use Queue with type Node parameters */
-void   pushNode(Node *new, Queue *queue);
-Node*  popNode(Queue *queue);
-Node*  peakNode(Queue *queue);
-
-/* Functions to use Queue with type Int parameters */
-void   pushInfo(int new, Queue *queue);
-int    popInfo(Queue *queue);
-int    peakInfo(Queue *queue);
+/* Functions to use Stack with type Int parameters */
+void   pushInfo(int new, Stack *stack);
+int    popInfo(Stack *stack);
 
 #endif

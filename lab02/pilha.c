@@ -1,10 +1,11 @@
 
-#include <pilha.h>;
-#include <stdlib.h>;
+#include "pilha.h"
+#include <stdlib.h>
+#include <stdio.h>
 
-/*  Creates an empty Queue */
-Queue* createQueue(){
-    Queue* q = (Queue*)malloc(sizeof(Queue));
+/*  Creates an empty Stack */
+Stack* createStack(){
+    Stack* q = (Stack*)malloc(sizeof(Stack));
     q->head = NULL;
     q->tail = NULL;
     return q;
@@ -19,61 +20,84 @@ Node*  createNode(int info){
     return n;
 }
 
-/* Runs through the list destroing all the nodes, before free the queue itself */
-void   destroyQueue(Queue *queue){
+/* Runs through the list destroing all the nodes, before free the stack itself */
+void   destroyStack(Stack *stack){
     Node* aux;
     
-    if(isQueueEmpty(queue))
-        free(queue);
+    if(isStackEmpty(stack))
+        free(stack);
     
-    while(queue->head != NULL){
-        aux = queue->head;
-        queue->head = aux->next;
+    while(stack->head != NULL){
+        aux = stack->head;
+        stack->head = aux->next;
         free(aux);
     }
 }
 
 /* free the memory of Node */
 void   destroyNode(Node *node){
-    free(node);
+    if(node != NULL)
+        free(node);
 }
 
-char   isQueueEmpty(Queue *queue){
-    return (queue->head == NULL);
+char   isStackEmpty(Stack *stack){
+    return (stack->head == NULL);
 }
 
-void   pushNode(Node *new, Queue *queue){
-    /* Queue empty, new is the first node */
-    if(isQueueEmpty(queue))
-        queue->head = new;
-    /* Go to tail of the Queue, the next will be the new node */
+void   printStack(Stack *stack){
+    Node *aux;
+    printf("{");
+    if(!isStackEmpty(stack)){
+        aux = stack->head;
+        do{
+            printf("[%d] ",aux->info);
+            aux = aux->next;
+        }while(aux != NULL);
+    }
+    printf("}\n");
+}
+
+void   pushNode(Node *new, Stack *stack){
+    /* Stack empty, new is the first node */
+    if(isStackEmpty(stack))
+        stack->head = new;
+    /* Go to tail of the Stack, the next will be the new node */
     else{
-        queue->tail->next = new;
-        new->prev = queue->tail;
+        stack->tail->next = new;
+        new->prev = stack->tail;
     }
 
-    /* Anyway, the Queue tail is the new node  */
-    queue->tail = new;
+    /* Anyway, the Stack tail is the new node  */
+    stack->tail = new;
 }
 
-Node*  popNode(Queue *queue){
+Node*  popNode(Stack *stack){
     Node *ret = NULL;
-    if(!isQueueEmpty(queue)){
-        ret = queue->tail;
-        queue->tail = queue->tail->prev;
+    if(!isStackEmpty(stack)){
+        if(stack->head == stack->tail)
+            stack->head = NULL;
+        ret = stack->tail;
+        stack->tail = stack->tail->prev;
         ret->prev = NULL;
+    }else{
+        printf("Stack is empty\n");
     }
     return ret;
 }
 
-Node*  peakNode(Queue *queue){
-    Node *ret = NULL;
-    if(!isQueueEmpty(queue)){
-        ret = queue->tail;
-    }
-    return ret;
+void   pushInfo(int new, Stack *stack){
+    Node* node = createNode(new);
+    pushNode(node, stack);
 }
 
-void   pushInfo(int new, Queue *queue);
-int    popInfo(Queue *queue);
-int    peakInfo(Queue *queue);
+int    popInfo(Stack *stack){
+    Node *node;
+    int ret = 0;
+    node = popNode(stack);
+    if(node != NULL){
+        ret = node->info;
+        destroyNode(node);
+    }
+
+    return ret;
+}
