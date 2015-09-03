@@ -2,7 +2,7 @@
 #define MATRIOSHKA_H
 
 
-char isMatrioshka(Stack stack);
+char isMatrioshka(Stack *stack);
 
 
 #endif

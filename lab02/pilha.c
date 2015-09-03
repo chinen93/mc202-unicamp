@@ -1,7 +1,8 @@
 
-#include "pilha.h"
 #include <stdlib.h>
 #include <stdio.h>
+
+#include "pilha.h"
 
 /*  Creates an empty Stack */
 Stack* createStack(){
@@ -24,14 +25,13 @@ Node*  createNode(int info){
 void   destroyStack(Stack *stack){
     Node* aux;
     
-    if(isStackEmpty(stack))
-        free(stack);
-    
-    while(stack->head != NULL){
+    while(! isStackEmpty(stack)){
         aux = stack->head;
         stack->head = aux->next;
         free(aux);
     }
+
+    free(stack);
 }
 
 /* free the memory of Node */
