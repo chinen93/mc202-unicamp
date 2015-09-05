@@ -1,3 +1,7 @@
+/* Nome: Pedro Hideaki Uiechi Chinen
+* RA: 175828
+* Laboratorio 02 - Matrioshkas Generalizadas */
+
 #include <stdio.h>
 
 
@@ -16,11 +20,14 @@ int main(){
         if(size % 2 != 0){
             printf ("Nao eh Matrioshka.\n");
         }else{
+            /* Get the numbers  */
             for(i=0; i<size; i++){
                 scanf("%d", &number);
                 sum += number;
                 pushInfo(number , stack);
             }
+            /* If the sum is not equals to 0, 
+               a doll is open/closed  without a fittible  */
             if(sum != 0){
                 printf ("Nao eh Matrioshka.\n");
             }else{
@@ -31,6 +38,9 @@ int main(){
                 }
             }
         }
+        /* Destroy the stack, because there might be some trash
+           Read next stack
+         */
         destroyStack(stack);
         scanf("%d", &size);
     }

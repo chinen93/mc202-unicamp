@@ -1,3 +1,7 @@
+/* Nome: Pedro Hideaki Uiechi Chinen
+* RA: 175828
+* Laboratorio 02 - Matrioshkas Generalizadas */
+
 #ifndef PILHA_H
 #define PILHA_H
 

@@ -1,3 +1,6 @@
+/* Nome: Pedro Hideaki Uiechi Chinen
+* RA: 175828
+* Laboratorio 02 - Matrioshkas Generalizadas */
 
 #include "pilha.h"
 #include "matrioshka.h"
@@ -7,46 +10,50 @@
 
 char isMatrioshka(Stack *stack){
     Stack *stackNumPos, *stackSumPartial;
-    int sumPartial;
-    Node *node, *nodePos;
-
+    int sumPartial, number, numberPos;
+    char ret = TRUE;
+    
     stackNumPos = createStack();
     stackSumPartial = createStack();
 
+    /* Check if the first number isn't less than 0  */
     if(! isStackEmpty(stack)){
-        node = popNode(stack);
-        if(node->info < 0){
-            destroyStack(stackNumPos);
-            destroyStack(stackSumPartial);
-            return FALSE;
+        number = popInfo(stack);
+        if(number < 0){
+            ret = FALSE;
         }
 
-        pushInfo(node->info, stackSumPartial);
-        pushNode(node, stackNumPos);
+        /* Put it into the aux stacks  */
+        pushInfo(number, stackSumPartial);
+        pushInfo(number, stackNumPos);
     }
 
-    while(! isStackEmpty(stack)){
-        node = popNode(stack);
-
-        if(node->info > 0){
+    while(! isStackEmpty(stack) && ret){
+        number = popInfo(stack);
+        
+        /* If the number is positive  */
+        if(number > 0){
+            /* Check if it fits in the last doll */
             sumPartial = popInfo(stackSumPartial);
-            sumPartial -= node->info;
+            sumPartial -= number;
+
+            /* Didn't fit */
             if(sumPartial <= 0){
-                destroyStack(stackNumPos);
-                destroyStack(stackSumPartial);
-                return FALSE;
+                ret = FALSE;
             }
 
+            /* Push into the aux stacks*/
             pushInfo(sumPartial, stackSumPartial);
-            pushInfo(node->info, stackSumPartial);
-            pushInfo(node->info, stackNumPos);
+            pushInfo(number, stackSumPartial);
+            pushInfo(number, stackNumPos);
         }else{
-            nodePos = popNode(stackNumPos);
-            sumPartial = nodePos->info + node->info;
+            /* Number is negative  */
+            numberPos = popInfo(stackNumPos);
+            sumPartial = numberPos + number;
+            /* Check if the last number in the stackNumPos 
+               has the same absolute value  */
             if(sumPartial != 0){
-                destroyStack(stackNumPos);
-                destroyStack(stackSumPartial);
-                return FALSE;
+                ret = FALSE;
             }
             popInfo(stackSumPartial);
         }
@@ -54,5 +61,5 @@ char isMatrioshka(Stack *stack){
 
     destroyStack(stackNumPos);
     destroyStack(stackSumPartial);
-    return TRUE;
+    return ret;
 }

@@ -1,3 +1,6 @@
+/* Nome: Pedro Hideaki Uiechi Chinen
+* RA: 175828
+* Laboratorio 02 - Matrioshkas Generalizadas */
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -26,9 +29,12 @@ void   destroyStack(Stack *stack){
     Node* aux;
     
     while(! isStackEmpty(stack)){
-        aux = stack->head;
-        stack->head = aux->next;
-        free(aux);
+       if(stack->head == stack->tail)
+            stack->head = NULL;
+        aux = stack->tail;
+        stack->tail = stack->tail->prev;
+        aux->prev = NULL;
+        destroyNode(aux);
     }
 
     free(stack);
@@ -79,8 +85,6 @@ Node*  popNode(Stack *stack){
         ret = stack->tail;
         stack->tail = stack->tail->prev;
         ret->prev = NULL;
-    }else{
-        printf("Stack is empty\n");
     }
     return ret;
 }
