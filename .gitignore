@@ -1,7 +1,5 @@
-#ignore aux folders, temp files
-aux/
-*~
-#*
-*/lab*
-#don't ignore c files
-!*.c
+# git ignore #
+# All .o files and compiled program
+*/*.o
+*/*.zip
+programa

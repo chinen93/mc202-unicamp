@@ -21,16 +21,18 @@ typedef struct List{
 } List;
 
 List* createList();
-Node* createNode();
+Node* createNode(int info);
 void  destroyList(List *list);
 void  destroyNode(Node *node);
 
+void  printList(List list);
+
 char  isListEmpty(List *list);
-Node* findInfo(int info, List list);
+char findInfo(int info, List *list, Node **current, Node **prev);
 Node* removeInfo(int info, List *list);
-Node* removeBeginList(List* list);
+Node* removeBeginList(List *list);
 
 void  insertBeginList(Node *node, List *list);
-void  insertFinalList(Node *node, list *list);
-
+void  insertFinalList(Node *node, List *list);
+void  insertFinalListInfo(int info, List *list);
 #endif /* FILA_H */
