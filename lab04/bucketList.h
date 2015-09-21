@@ -7,12 +7,14 @@ typedef struct Node{
 } Node;
 
 typedef struct List{
+    int num;
     struct Node *head;
+    struct Node *tail;
 } List;
 
 typedef struct BucktList{
     int num;
-    struct List *bucketList;
+    struct List **bucketList;
 } BucketList;
 
 BucketList *createBucketList(int num);

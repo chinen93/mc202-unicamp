@@ -16,7 +16,9 @@ BucketList *createBucketList(int num){
 List *createList(){
     List *list;
     list = (List *)calloc(1, sizeof(List));
+    list->num = 0;
     list->head = NULL;
+    list->tail = NULL;
     return list;
 }
 
@@ -46,10 +48,26 @@ void destroyList(List **list){
 }
 
 void destroyBucketList(BucketList **bucketList){
-    while(bucketList->num > 0){
-        bucketList->bucket
-        bucketList->num--;
+    int i;
+    List *list;
+
+    for(i=0; i<(*bucketList)->num; i++){
+        list = (*bucketList)->bucket[i];
+        destroyList(&list);
     }
+
+    free((*bucketList));
 }
 
-void insertAddressList(int *address, List *list);
+void insertAddressList(int *address, List *list){
+    Node *new = createNode(address);
+
+    list->num++;
+    if(list->head == NULL){
+        list->head = new;
+        list->tail = new;
+    }else{
+        list->tail->next = new;
+        list->tail = new;
+    }
+}

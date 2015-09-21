@@ -10,11 +10,14 @@
 #include "image.h"
 #include "bucketList.h"
 
-void equalize(BuckeList *list, int **pixel);
+BucketList *sortIntensity(Image *image);
+BucketList *equalize(BucketList *bucketSort, int maxEqual, int numGroups);
+void printBucket(BucketList *bucket);
+
 
 int main(){
     Image *image;
-    BucketList *list;
+    BucketList *bucketEqual, *bucketSort;
     char *nameImage[81];
     int  maxEqual, beginGap, endGap, numGroups;
     int i, j;
@@ -26,27 +29,64 @@ int main(){
         scanf("%d", &maxEqual);
         scanf("%d %d", &beginGap, &endGap);
 
+        /* Sort Image by intensity */
+        bucketSort = sortIntensity(image);
+        
         /* Calculate number os groups, create these groups */
         numGroups = ceil(image->n/maxEqual);
-        list = createBucketList(numGroups);
-
-        /* Equalize and show results */
-        equalize(list, &image->pixel);
-        for(i=beginGap; i<endGap; i++){
-            for(j=0, j<image->n ; j++){
-                if(image->pixel[j] == i)
-                    printf("%d ",j);
-            }
-        }
-        printf("\n");
+        bucketEqual = equalize(bucketSort, maxEqual, numGroups);
 
         /* Free memory */
-        destroyList(&list);
+        destroyList(&bucketSort);
+        destroyList(&bucketEqual);
         destroyImage(&image);
     }
     return 0;
 }
 
-void equalize(BuckeList *list, int **pixel){
-    
+BucketList *sortIntensity(Image *image){
+    int i, j;
+    BucketList *bucket;
+
+    bucket = createBucketList(256);
+    for(i=0; i<255; i++)
+        for(j=0; j<image->n; j++)
+            if(image->pixel[j] == i){
+                insertAddressList(&image->pixel[j],
+                                  bucket->bucketList[i]);
+            }
+
+    return bucket;
 }
+
+BucketList *equalize(BucketList *bucketSort, int maxEqual, int numGroups){
+    int i, j, count;
+    BucketList *bucket;
+    Node *node;
+    
+    bucket = createBucketList(numGroups);
+    node = bucketSort->bucketList[0]->head;
+    i = 0;
+    j = 0;
+    count = 0;
+    
+    while(count < maxEqual && j < numGroups && i < bucketSort->num){
+        while(node != NULL && count < maxEqual){
+            inseertAddressList(node->address, bucket->bucketList[j]);
+        
+            count++;
+            node = node->next;
+        }
+        if(node == NULL){
+            i++;
+            if(i < bucketSort->num)
+                node = bucketSort->bucketList[i]->head;
+        }
+        if(count == maxEqual){
+            j++;
+            count = 0;
+        }
+    }
+}
+
+void printBucket(BucketList *bucket);
