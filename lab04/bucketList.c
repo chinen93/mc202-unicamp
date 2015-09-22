@@ -1,13 +1,22 @@
+/*
+  Nome: Pedro Hideaki Uiechi Chinen
+  Ra  : 175828
+  Laboratorio 04 - Os Caca Pixels
+ */
 #include <stdlib.h>
+#include "bucketList.h"
 
 BucketList *createBucketList(int num){
     BucketList *bucket;
     int i;
 
     /* Create num buckets of list  */
-    bucket->bucketList = (BucketList *)calloc(1, sizeof(BucketList));
-    for(i=0; i<num; i++)
+    bucket = (BucketList *)calloc(1, sizeof(BucketList));
+    bucket->bucketList = (List **)calloc(num, sizeof(List *));
+    for(i=0; i<num; i++){
         bucket->bucketList[i] = createList();
+    }
+    
     bucket->num = num;
 
     return bucket;
@@ -22,10 +31,10 @@ List *createList(){
     return list;
 }
 
-Node *createNode(int *address){
+Node *createNode(int info){
     Node *node;
     node = (Node *)calloc(1, sizeof(Node));
-    node->address = address;
+    node->info = info;
     node->next = NULL;
     return node;
 }
@@ -44,6 +53,7 @@ void destroyList(List **list){
         free(node);
     }
 
+    free((*list));
     (*list) = NULL;
 }
 
@@ -52,15 +62,18 @@ void destroyBucketList(BucketList **bucketList){
     List *list;
 
     for(i=0; i<(*bucketList)->num; i++){
-        list = (*bucketList)->bucket[i];
+        list = (*bucketList)->bucketList[i];
         destroyList(&list);
     }
-
+    
+    free((*bucketList)->bucketList);
     free((*bucketList));
+    
+    (*bucketList) = NULL;
 }
 
-void insertAddressList(int *address, List *list){
-    Node *new = createNode(address);
+void insertInfoList(int info, List *list){
+    Node *new = createNode(info);
 
     list->num++;
     if(list->head == NULL){

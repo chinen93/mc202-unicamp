@@ -1,8 +1,13 @@
+/*
+  Nome: Pedro Hideaki Uiechi Chinen
+  Ra  : 175828
+  Laboratorio 04 - Os Caca Pixels
+ */
 #ifndef BUCKETLIST_H
 #define BUCKETLIST_H
 
 typedef struct Node{
-    int *address;
+    int info;
     struct Node *next;
 } Node;
 
@@ -19,11 +24,11 @@ typedef struct BucktList{
 
 BucketList *createBucketList(int num);
 List *createList();
-Node *createNode(int *address);
+Node *createNode(int info);
 void destroyNode(Node **node);
 void destroyList(List **list);
 void destroyBucketList(BucketList **bucketList);
 
-void insertAddressList(int *address, List *list);
+void insertInfoList(int info,  List *list);
 
 #endif 

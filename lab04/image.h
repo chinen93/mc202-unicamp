@@ -1,6 +1,6 @@
-//
+/*
 // Created by Alan Peixinho on 9/12/15.
-//
+*/
 
 #ifndef LAB04_IMAGE_H
 #define LAB04_IMAGE_H
@@ -17,4 +17,4 @@ typedef struct Image{
 Image *readImageP5(const char *format);
 void destroyImage(Image** image);
 
-#endif //LAB04_IMAGE_H
+#endif /* LAB04_IMAGE_H */

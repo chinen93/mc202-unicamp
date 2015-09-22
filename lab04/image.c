@@ -1,6 +1,6 @@
-//
+/*
 // Created by Alan Peixinho on 9/12/15.
-//
+*/
 
 #include "image.h"
 #include <stdio.h>
@@ -8,7 +8,7 @@
 
 void skipComments(FILE *fp)
 {
-    //skip for comments
+    /*skip for comments*/
     while (fgetc(fp) == '#') {
         while (fgetc(fp) != '\n');
     }
@@ -22,6 +22,7 @@ Image *readImageP5(const char *filename)
     unsigned char   *data8=NULL;
     char    type[10];
     int     n, p,xsize,ysize,max;
+    Image* image;
 
     fp = fopen(filename,"rb");
     if (fp == NULL){
@@ -62,7 +63,7 @@ Image *readImageP5(const char *filename)
     free(data8);
     fclose(fp);
 
-    Image* image = (Image*)calloc(1, sizeof(Image));
+    image = (Image*)calloc(1, sizeof(Image));
     image->n = n;
     image->pixel = img;
 

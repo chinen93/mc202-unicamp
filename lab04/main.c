@@ -6,21 +6,36 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include "image.h"
 #include "bucketList.h"
 
 BucketList *sortIntensity(Image *image);
 BucketList *equalize(BucketList *bucketSort, int maxEqual, int numGroups);
-void printBucket(BucketList *bucket);
+void printBucket(BucketList *bucket, int begin, int end);
+int cima(double number);
 
+void printBucketAll(BucketList *bucket){
+    Node *node;
+    int i;
+    for(i = 0; i<=bucket->num; i++){
+        if(i < bucket->num){
+            printf("[%d]      ",i);
+            node = bucket->bucketList[i]->head;
+            while(node != NULL){
+                printf("%d ", node->info);
+                node = node->next;
+            }
+            printf("\n");
+        }
+    }
+    printf("\n");
+}
 
 int main(){
     Image *image;
     BucketList *bucketEqual, *bucketSort;
-    char *nameImage[81];
+    char nameImage[81];
     int  maxEqual, beginGap, endGap, numGroups;
-    int i, j;
 
     /* Get all the user input and make some validation */
     scanf("%s ", nameImage);
@@ -33,12 +48,14 @@ int main(){
         bucketSort = sortIntensity(image);
         
         /* Calculate number os groups, create these groups */
-        numGroups = ceil(image->n/maxEqual);
+        numGroups = cima((double)image->n/(double)maxEqual);
+
         bucketEqual = equalize(bucketSort, maxEqual, numGroups);
+        printBucket(bucketEqual, beginGap, endGap);
 
         /* Free memory */
-        destroyList(&bucketSort);
-        destroyList(&bucketEqual);
+        destroyBucketList(&bucketSort);
+        destroyBucketList(&bucketEqual);
         destroyImage(&image);
     }
     return 0;
@@ -48,12 +65,12 @@ BucketList *sortIntensity(Image *image){
     int i, j;
     BucketList *bucket;
 
+    /* Put every position of pixel in their respective bucket sorted by intensity */
     bucket = createBucketList(256);
-    for(i=0; i<255; i++)
+    for(i=0; i<256; i++)
         for(j=0; j<image->n; j++)
             if(image->pixel[j] == i){
-                insertAddressList(&image->pixel[j],
-                                  bucket->bucketList[i]);
+                insertInfoList(j, bucket->bucketList[i]);
             }
 
     return bucket;
@@ -69,10 +86,13 @@ BucketList *equalize(BucketList *bucketSort, int maxEqual, int numGroups){
     i = 0;
     j = 0;
     count = 0;
-    
+
+    /* Go throught every bucket in [bucketSort] and put into [bucket] [maxEqual] positions.
+       in the end [bucket] will be equalizated 
+     */
     while(count < maxEqual && j < numGroups && i < bucketSort->num){
         while(node != NULL && count < maxEqual){
-            inseertAddressList(node->address, bucket->bucketList[j]);
+            insertInfoList(node->info, bucket->bucketList[j]);
         
             count++;
             node = node->next;
@@ -87,6 +107,35 @@ BucketList *equalize(BucketList *bucketSort, int maxEqual, int numGroups){
             count = 0;
         }
     }
+
+    return bucket;
 }
 
-void printBucket(BucketList *bucket);
+void printBucket(BucketList *bucket, int begin, int end){
+    Node *node;
+    int i;
+    for(i = begin; i<=end; i++){
+        if(i < bucket->num){
+            node = bucket->bucketList[i]->head;
+            while(node != NULL){
+                printf("%d ", node->info);
+                node = node->next;
+            }
+        }
+    }
+    printf("\n");
+}
+
+int cima(double number){
+    int rest, ret;
+    double aux;
+    
+    aux  = (double)number*10;
+    rest = (int) aux%10;
+    ret  = (int) aux/10;
+    
+    if(rest > 0)
+        ret++;
+    
+    return ret;
+}
