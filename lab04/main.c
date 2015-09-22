@@ -10,7 +10,7 @@
 #include "bucketList.h"
 
 BucketList *sortIntensity(Image *image);
-BucketList *equalize(BucketList *bucketSort, int maxEqual, int numGroups);
+BucketList *equalize(BucketList *bucketSort, int numPerGroups);
 void printBucket(BucketList *bucket, int begin, int end);
 int cima(double number);
 
@@ -35,7 +35,7 @@ int main(){
     Image *image;
     BucketList *bucketEqual, *bucketSort;
     char nameImage[81];
-    int  maxEqual, beginGap, endGap, numGroups;
+    int  maxEqual, beginGap, endGap, numPerGroups;
 
     /* Get all the user input and make some validation */
     scanf("%s ", nameImage);
@@ -48,9 +48,9 @@ int main(){
         bucketSort = sortIntensity(image);
         
         /* Calculate number os groups, create these groups */
-        numGroups = cima((double)image->n/(double)maxEqual);
+        numPerGroups = cima((double)image->n/(double)maxEqual);
 
-        bucketEqual = equalize(bucketSort, maxEqual, numGroups);
+        bucketEqual = equalize(bucketSort, numPerGroups);
         printBucket(bucketEqual, beginGap, endGap);
 
         /* Free memory */
@@ -62,26 +62,24 @@ int main(){
 }
 
 BucketList *sortIntensity(Image *image){
-    int i, j;
+    int i;
     BucketList *bucket;
 
     /* Put every position of pixel in their respective bucket sorted by intensity */
     bucket = createBucketList(256);
-    for(i=0; i<256; i++)
-        for(j=0; j<image->n; j++)
-            if(image->pixel[j] == i){
-                insertInfoList(j, bucket->bucketList[i]);
-            }
+
+    for(i=0; i<image->n; i++)
+        insertInfoList(i, bucket->bucketList[image->pixel[i]]);
 
     return bucket;
 }
 
-BucketList *equalize(BucketList *bucketSort, int maxEqual, int numGroups){
+BucketList *equalize(BucketList *bucketSort, int numPerGroups){
     int i, j, count;
     BucketList *bucket;
     Node *node;
     
-    bucket = createBucketList(numGroups);
+    bucket = createBucketList(256);
     node = bucketSort->bucketList[0]->head;
     i = 0;
     j = 0;
@@ -90,24 +88,22 @@ BucketList *equalize(BucketList *bucketSort, int maxEqual, int numGroups){
     /* Go throught every bucket in [bucketSort] and put into [bucket] [maxEqual] positions.
        in the end [bucket] will be equalizated 
      */
-    while(count < maxEqual && j < numGroups && i < bucketSort->num){
-        while(node != NULL && count < maxEqual){
-            insertInfoList(node->info, bucket->bucketList[j]);
-        
-            count++;
-            node = node->next;
-        }
-        if(node == NULL){
-            i++;
-            if(i < bucketSort->num)
-                node = bucketSort->bucketList[i]->head;
-        }
-        if(count == maxEqual){
-            j++;
-            count = 0;
+    for(i=0;i<256 && j < bucketSort->num; i++){
+        count = 0;
+        while(count < numPerGroups && j < bucketSort->num){
+            /* Go to next bucket */
+            if(node == NULL){
+                j++;
+                if(bucketSort->bucketList[j] != NULL)
+                    node = bucketSort->bucketList[j]->head;
+            }else{
+                insertInfoList(node->info, bucket->bucketList[i]);
+                
+                count++;
+                node = node->next;
+            }
         }
     }
-
     return bucket;
 }
 
