@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html><head><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}</style>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">        <title>
+            run.codes        </title>
+        <link href="run.codes_files/css.css" rel="stylesheet" type="text/css">
+        <link href="run.codes_files/css_002.css" rel="stylesheet" type="text/css">
+        <link href="https://d7ghnchxvmryx.cloudfront.net/img/icon.png" type="image/x-icon" rel="icon"><link href="https://d7ghnchxvmryx.cloudfront.net/img/icon.png" type="image/x-icon" rel="shortcut icon">        <link rel="stylesheet" type="text/css" href="run.codes_files/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="run.codes_files/jasny-bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="run.codes_files/font-awesome.css">
+        <link rel="stylesheet" type="text/css" href="run.codes_files/bootstrap-datetimepicker.css">
+        <link rel="stylesheet" type="text/css" href="run.codes_files/rickshaw.css">
+        <link rel="stylesheet" type="text/css" href="run.codes_files/summernote.css">
+        <link rel="stylesheet" type="text/css" href="run.codes_files/summernote-bs3.css">
+        <link rel="stylesheet" type="text/css" href="run.codes_files/chosen.css">
+        <link rel="stylesheet" type="text/css" href="run.codes_files/zenburn.css">
+        <link rel="stylesheet" type="text/css" href="run.codes_files/template2015.css">
+    </head>
+    <body class="ng-scope" ng-app="runcodesApp">
+        <nav class="navbar navbar-fixed-top color-one">
+            <div class="container-fluid">
+                <div class="navbar-header hidden-xs hidden-sm">
+                    <a class="navbar-brand-img" href="https://run.codes/"><img src="run.codes_files/logo.png" class="img-responsive"></a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav">
+                                                <li class="home color-two"><a class="hover-text-color-three" href="https://run.codes/"><i class="fa fa-home"></i></a></li>
+                                            </ul>
+                    <ul id="nav-right-menu" class="nav navbar-nav navbar-right">
+                        <li class="dropdown user-menu"><a href="#" class="dropdown-toggle hover-text-color-three" data-toggle="dropdown">ph.u.chinen@gmail.com <i class="fa fa-angle-double-down"></i></a>
+                            <ul class="dropdown-menu color-light">
+                                <li><a href="https://run.codes/Users/profile" class="hover-color-three">Dados Pessoais</a></li>
+                                                                <li class="divider"></li>
+                                <li>
+                                    <div class="pull-left">
+                                                                            </div>
+                                    <div class="pull-right">
+                                        <a href="https://run.codes/Users/logout" class="btn btn-color-three-outline btn-block"><i class="fa fa-sign-out"></i> Sair</a>                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="color-two hidden-xs hidden-sm">
+                            <p>Hora do Servidor: </p>
+                        </li>
+                        <li class="color-two server-time">
+                                                        <p class="ng-scope ng-binding" id="server-time" ng-controller="ServerTimeController" ng-init="initializeServerTime('22/09/2015','14:50:56')">22/09/2015<br>14:51:17</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <section class="page-content">
+                        <div class="main-loading hidden">
+                <i class="fa fa-5x fa-spin fa-gear"></i>
+                <h3>Loading...</h3>
+            </div>
+            <aside class="main-content">
+                <div class="container-fluid">
+                                        <div class="row">
+                        <div class="col-md-12">
+                            <ol class="breadcrumb">
+                                <li><a href="https://run.codes/" class="text-color-one"><i class="fa fa-home"></i> Home</a></li>
+                                                                        <li>
+                                    <a href="https://run.codes/offerings/view/166" class="text-color-one">MC202</a>                                        </li>
+                                                                                                            <li class="active">O problema do acesso à lista</li>
+                                                                                                </ol>
+                        </div>
+                    </div>
+                                                        </div>
+                <div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="offerings view panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">O problema do acesso à lista</h3>
+                </div>
+                <div class="panel-body">
+                    <strong>Disciplina: </strong>MC202 - Estrutura de Dados                    <br>
+                    <strong>Descrição: </strong><br><b>Prazo máximo de submissão:   <span style="text-decoration: underline;">29/08/2015
+</span></b><br>
+
+
+<p> O <strong> problema do acesso à lista</strong> é um dos problemas 
+computacionais de maior significado histórico, teórico e de interesse 
+prático. Ele é aparentemente um problema muito simples, mas esconde 
+várias sutilezas (veja o <a href="http://en.wikipedia.org/wiki/List_update_problem" target="_blank"> verbete </a> na Wikipedia).
+
+</p><p> Imagine que temos um <a href="http://pt.wikipedia.org/wiki/Ficha_catalogr%C3%A1fica" target="_blank">fichário</a> contendo <b>n</b> pastas rotuladas mas sem nenhuma ordem especial (uma lista). Cada rótulo é uma <b> chave </b> (inteiro) que serve para identificar a pasta de modo único.
+O objetivo é atender a uma sequência de <b> requisições </b> onde uma requisição é uma das seguintes operações: <b>acesse(x)</b>, <b>insere(x)</b> e <b>remove(x)</b>, onde <b>x</b> é um rótulo de um item (pasta). O <b>custo</b> de uma requisição <b>x</b> é 1 mais o número de itens que precedem <b>x</b> (1 mais o tamanho da lista se o item não pertence à lista). Mais precisamente, acessar ou remover o <b>i</b>-ésimo item da lista custa <b>i</b>/ Inserir um novo item custa <b>n+1</b> onde <b>n</b> é o tamanho da lista (o item é inserido no final da lista).
+
+</p><p> Você como o responsável pelo fichário, gostaria de usar uma 
+estratégia que permitisse minimizar o tempo total que você gasta para 
+atender às requisições. Isto talvez fosse mais fácil se você soubesse de
+ antemão quais as requisições futuras, mas no contexto explicado acima o
+ problema é <b>online</b> (informalmente, significa que as requisições vão chegando e devem ser atendidas imediatamente sem conhecimento do futuro).
+
+
+</p><p> É fácil perceber que uma <b>lista ligada</b> é a estrutura de 
+dados mais adequada para implementar o modelo acima. O custo das buscas é
+ proporcional ao número de itens percorridos. 
+ 
+ </p><h2>Dois algoritmos para acesso à lista</h2>
+ 
+ <p> Nos algoritmos de acesso à lista costuma-se adotar a seguinte 
+convenção. Imediatamente após acessar ou inserir um item, podemos 
+movê-lo (sem nenhum custo) para qualquer posição próxima ao início da 
+lista. As transposições (trocas) feitas para realizar este movimento são
+ chamadas <b>livres</b> enquanto as demais transposições são chamadas <b>pagas</b> e tem custo 1 cada.
+ 
+ </p><p>Muitos algoritmos foram propostos para gerenciar uma lista. 
+Neste projeto consideramos dois algoritmos bem conhecidos que só usam 
+transposições livres.
+ </p><ul><li> <b>MTF (Move-To-Front)</b>: após acessar um item, este é movido para o início da lista;</li><li><b>TR (Transpose) </b>: após acessar ou inserir um item, faça uma 
+transposição com o item anterior (sem custo). Se o item acessado for o 
+primeiro da lista, mantenha-o na mesma posição;</li></ul>
+ 
+<p> Vejamos um exemplo concreto. Denote as operações de acesso, inserção e remoção por <b>a(x)</b>, <b>i(x)</b> e <b>r(x)</b>, respectivamente. Suponha que a lista inicial seja <tt>L=(1,2,3,4,5)</tt> e a sequência de requisições sejam <tt>a(4),a(2),a(2),i(6),a(3),r(2),a(3),a(6),r(1)</tt>. Veja abaixo quais são os custos para cada algoritmo. 
+
+</p><p> <b>MTF</b>
+	</p><ul><li> Lista inicial <tt>L=(1,2,3,4,5)</tt>
+		</li><li> a(4). Custo = 4. Lista <tt>L=(4,1,2,3,5)</tt> </li><li> a(2). Custo = 3. Lista <tt>L=(2,4,1,3,5)</tt> </li><li> a(2). Custo = 1. Lista <tt>L=(2,4,1,3,5)</tt> </li><li> i(6). Custo = 6. Lista <tt>L=(2,4,1,3,5,6)</tt> </li><li> a(3). Custo = 4. Lista <tt>L=(3,2,4,1,5,6)</tt> </li><li> r(2). Custo = 2. Lista <tt>L=(3,4,1,5,6)</tt> </li><li> a(3). Custo = 1. Lista <tt>L=(3,4,1,5,6)</tt> </li><li> a(6). Custo = 5. Lista <tt>L=(6,3,4,1,5)</tt> </li><li> r(1). Custo = 4. Lista <tt>L=(6,3,4,5)</tt> </li></ul>
+Custo total = 4+3+1+6+4+2+1+5+4 = 30.
+
+
+<p> <b>TR</b>
+	</p><ul><li> Lista inicial <tt>L=(1,2,3,4,5)</tt>
+		</li><li> a(4). Custo = 4. Lista <tt>L=(1,2,4,3,5)</tt>
+ 		</li><li> a(2). Custo = 2. Lista <tt>L=(2,1,4,3,5)</tt>
+		</li><li> a(2). Custo = 1. Lista <tt>L=(2,1,4,3,5)</tt>
+		</li><li> i(6). Custo = 6. Lista <tt>L=(2,1,4,3,6,5)</tt>
+		</li><li> a(3). Custo = 4. Lista <tt>L=(2,1,3,4,6,5)</tt>
+		</li><li> r(2). Custo = 1. Lista <tt>L=(1,3,4,6,5)</tt>
+		</li><li> a(3). Custo = 2. Lista <tt>L=(3,1,4,6,5)</tt>
+		</li><li> a(6). Custo = 4. Lista <tt>L=(3,1,6,4,5)</tt>
+		</li><li> r(1). Custo = 2. Lista <tt>L=(3,6,4,5)</tt>
+	</li></ul>
+Custo total = 4+2+1+6+4+1+2+4+2 = 26.
+
+
+<h2>Resultados conhecidos</h2>
+
+<p> Apesar do exemplo acima, o <b>TR</b> é o pior dos dois algoritmos, 
+no sentido de que para a maiorias das instâncias, o MFT se comporta 
+melhor que o TR. Pode-se provar isto formalmente. 
+
+
+</p><h2>Especificação da entrada e saída</h2>
+
+<p> Você pode supor que as chaves são inteiros entre 1 e 1000.
+
+</p><p> A primeira linha da entrada contém dois inteiros N e R, 
+representando o tamanho inicial da lista e o número de requisições, com 1
+ ≤ N ≤ 100 e 1 ≤ R ≤ 200. A segunda linha contém N inteiros distintos 
+representando os itens da lista. Segue-se então R linhas cada uma 
+contendo uma 
+das seguintes instruções:
+</p><ul><li> a &lt;x&gt; (acesse item x)
+ </li><li> i &lt;x&gt; (insira item x)
+ </li><li> r &lt;x&gt; (remova item x) 
+</li></ul>
+onde  &lt;x&gt; é um inteiro.
+
+<pre><b>Entrada:</b>
+5 9
+1 2 3 4 5
+a 4
+a 2
+a 2
+i 6
+a 3
+r 2
+a 3
+a 6
+r 1
+</pre>
+
+<p> A saída do programa consiste de 4 linhas contendo o custo de MTF, a 
+lista final, o custo de TR e a lista final quando os algoritmos são 
+executados para a entrada dada.</p>
+
+<pre><b>Saída:</b>
+
+30
+6 3 4 5
+26
+3 6 4 5
+</pre>
+
+
+<br> 
+<hr>
+
+<h2>Observações</h2>
+
+<ul><li> Suponha que cada linha da entrada ou da saída termina com um `\n'.
+
+</li><li> O número máximo de submissões é 15.
+
+</li><li> Há várias maneiras de fazer o projeto e algumas nem precisam usar listas ligadas. <b>Entretanto,
+ como o objetivo do projeto é se familiarizar com listas ligadas, você 
+deve implementar os algoritmos MTF e TR sobre uma lista ligada.</b> Você pode usar listas ligadas com nó cabeça, se quiser. Se quiser, pode usar listas duplamente ligadas.
+
+</li><li> Se o programa não passar em todos os testes, a nota final será
+ no máximo 4. O código submetido será lido e poderão ser descontados 
+pontos por falta de comentários e indentação, por implementação 
+incorreta ou muito ineficiente das funções, ou por outros problemas de 
+apresentação do código.
+
+</li><li> Casos de plágio acarretam <b>média final zero</b> para todos 
+os envolvidos, sem exceção. Então não empreste trechos de código, não 
+copie trechos de código, faça você mesmo o programa etc. 
+
+</li></ul>
+
+<hr>
+
+<h2>Especificação de submissão</h2>
+
+
+<p> Você deve implementar um TAD (Tipo Abstrato de Dados) que deverá estar no arquivo do programa. Siga a seguinte estruturação:
+</p>
+
+<div style="background-color:#fcf8e3;width:90%;margin:0 auto">
+
+	<table style="width:90%">
+			<tbody><tr>
+				<td style="border-color:#333">/* Nome: Seu nome aqui <br> *
+					RA: Seu RA aqui <br> * Laboratorio 01 - O problema do acesso à lista */<br><br> 
+					/* STRUCS, DEFINIÇÕES E CABEÇALHOS DAS SUAS FUNÇÕES DA TAD */ <br>
+					typedef struct _ex { <br>
+					... <br>
+					} Ex; <br><br>
+					
+					void funcao_exemplo(int a); <br>
+					// assinatura de outras funções <br><br>
+					
+					/* SEU PROGRAMA - MAIN */<br>
+					int main() { <br>
+					...
+					return 0; <br>
+					} <br><br>
+					/* IMPLEMENTAÇÃO DAS FUNÇÕES DE SUA TAD */ <br>
+					void funcao_exemplo(int a) {<br>
+					... <br>
+					} <br>
+					// implementação de outras funções<br>
+					... 
+				</td>
+			</tr>
+	</tbody></table>
+
+</div>	
+
+<br>
+	<strong style="color:#ff0033">Fique à vontade para criar as funções e 
+estruturas que desejar. Entretanto, 
+	siga a estrutura de código mostrada acima. Será avaliado as funções 
+criadas em sua TAD. Modularize seu código da maneira que achar 
+conveniente. 
+	A não implementação de TAD resultará em redução severa na nota.</strong>                    <br>
+                    <strong>Prazo de Entrega: </strong>29/08/2015 23:59:59                     
+                        <span class="label label-danger">Fechado</span>
+                                                                                    <br><strong>Este exercício aceita os seguintes tipos de arquivos:</strong>                        <ul class="nav nav-pills">
+                                                    <li style="margin-right: 3px;">
+                                <span class="label label-info">C</span>
+                            </li>
+                                                </ul>
+                                                            </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Novo Envio</h3>
+                </div>
+                                <div class="panel-body submit-commit">
+                    <p class="deadline-text text-center">O exercício esta fechado<br><span class="deadline text-color-three">29/08/2015 23:59:59</span> </p>
+                    <span class="btn btn-color-three text-center disabled">
+                        <i class="fa fa-upload"></i> <span>Fechado</span>
+                    </span>
+                </div>
+                            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Meu Último Envio</h3>
+                    <div class="panel-heading-buttons">
+                        <a href="https://run.codes/Commits/download/88146" class="btn btn-info btn-sm"><i class="fa fa-download"></i> Download</a>                    </div>
+                </div>
+                <div class="panel-body ng-scope" ng-controller="LastCommitController">
+                    <!-- ngIf: loading -->
+                    <div class="row">
+                        <div class="col-md-4 col-sm-3">
+                            <div class="row">
+                                <div class="col-md-12" ng-init="commit.id=88146;commit.status.value=5;commit.status.color='success';commit.status.name='Finalizado';">
+                                    <div class="box infographic color-success">
+                                        <div class="headline">status</div>
+                                        <div class="text-value ng-binding">Finalizado</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8 col-sm-9">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6" ng-init="commit.compiled.status=true;commit.compiled.color='success';">
+                                    <div class="box infographic color-success">
+                                        <div class="headline">compilado</div>
+                                        <div class="value">
+                                            <span ng-show="commit.compiled.status">Sim</span>
+                                            <span class="ng-hide" ng-show="!commit.compiled.status">Não</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 hidden-sm" ng-init="commit.cases.correct=21;commit.cases.total=21;commit.cases.color='info';">
+                                    <div class="box infographic color-info">
+                                        <div class="headline">casos corretos</div>
+                                        <div class="value ng-binding">21/21</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6" ng-init="commit.score.value='10.00';commit.score.color='success';startRefreshing();">
+                                    <div class="box infographic color-success">
+                                        <div class="headline">pontuação</div>
+                                        <div class="value ng-binding">10.00</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                                        <table class="table table-hover table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Caso</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Tempo de CPU</th>
+                                <th class="text-center">Tam. de Memória Utilizado</th>
+                                <th class="text-center">Mensagem</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                                            <tr>
+                                    <td class="text-center">Caso 1</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0004 s</td>
+                                    <td class="text-center">548 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 2</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0004 s</td>
+                                    <td class="text-center">552 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 3</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0004 s</td>
+                                    <td class="text-center">552 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 4</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0004 s</td>
+                                    <td class="text-center">552 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 5</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0006 s</td>
+                                    <td class="text-center">556 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 6</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0005 s</td>
+                                    <td class="text-center">556 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 7</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0006 s</td>
+                                    <td class="text-center">552 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 8</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0005 s</td>
+                                    <td class="text-center">552 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 9</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0005 s</td>
+                                    <td class="text-center">556 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 10</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0005 s</td>
+                                    <td class="text-center">552 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 11</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0005 s</td>
+                                    <td class="text-center">556 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 12</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0006 s</td>
+                                    <td class="text-center">556 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 13</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0005 s</td>
+                                    <td class="text-center">548 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 14</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0005 s</td>
+                                    <td class="text-center">552 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 15</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0004 s</td>
+                                    <td class="text-center">552 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 16</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0004 s</td>
+                                    <td class="text-center">552 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 17</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0004 s</td>
+                                    <td class="text-center">552 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 18</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0004 s</td>
+                                    <td class="text-center">552 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 19</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0004 s</td>
+                                    <td class="text-center">552 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 20</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0005 s</td>
+                                    <td class="text-center">556 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                            <tr>
+                                    <td class="text-center">Caso 21</td>
+                                    <td class="text-center">
+                                                                                <span class="label label-success">Correto</span>
+                                                                            </td>
+                                    <td class="text-center">0.0005 s</td>
+                                    <td class="text-center">556 Kb </td>
+                                    <td class="text-center">Resposta Correta</td>
+                                </tr>
+                                                    </tbody>
+                    </table>
+                                    </div>
+            </div>
+        </div>
+
+                <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Detalhes dos Casos de Teste</h3>
+                </div>
+                <div class="panel-body ng-scope" ng-controller="ExerciseCasesController">
+                    <div class="form-group"><select name="data[case]" class="form-control ng-pristine ng-untouched ng-valid" ng-model="caseId" ng-change="loadCase()" id="case">
+<option selected="selected" value="-1">Selecione um caso de teste...</option>
+<option value="760169">Caso 1 (Correto)</option>
+<option value="760170">Caso 2 (Correto)</option>
+<option value="760171">Caso 3 (Correto)</option>
+<option value="760172">Caso 4 (Correto)</option>
+<option value="760173">Caso 5 (Correto)</option>
+<option value="760174">Caso 6 (Correto)</option>
+<option value="760175">Caso 7 (Correto)</option>
+<option value="760176">Caso 8 (Correto)</option>
+<option value="760177">Caso 9 (Correto)</option>
+<option value="760178">Caso 10 (Correto)</option>
+<option value="760179">Caso 11 (Correto)</option>
+<option value="760180">Caso 12 (Correto)</option>
+<option value="760181">Caso 13 (Correto)</option>
+<option value="760182">Caso 14 (Correto)</option>
+<option value="760183">Caso 15 (Correto)</option>
+<option value="760184">Caso 16 (Correto)</option>
+<option value="760185">Caso 17 (Correto)</option>
+<option value="760186">Caso 18 (Correto)</option>
+<option value="760187">Caso 19 (Correto)</option>
+<option value="760188">Caso 20 (Correto)</option>
+<option value="760189">Caso 21 (Correto)</option>
+</select></div>                    <div class="commits-exercise-case-page ng-binding ng-hide" ng-show="caseId != -1" ng-bind-html="commitsExerciseCaseView"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-12 col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Histórico de Entregas</h3>
+                </div>
+                <table class="table table-hover table-striped table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Corretos</th>
+                        <th class="text-center">Notas</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                                            <tr>
+                            <td class="text-center">27/08/2015 14:54:17</td>
+                            <td class="text-center"><span class="label label-success">Finalizado</span></td>
+                            <td class="text-center"><span class="label label-info">21/21</span></td>
+                            <td class="text-center"><span class="label label-success">10.00</span></td>
+                            <td class="text-center">
+                                <a href="https://run.codes/Commits/download/88146" class="btn btn-info btn-sm"><i class="fa fa-download"></i> Download</a>                                <a href="https://run.codes/commits/details/88146" class="btn btn-color-one btn-sm">Detalhes</a>                            </td>
+                        </tr>
+                                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+            </aside>
+        </section>
+        <script src="run.codes_files/piwik.js" async="" defer="defer" type="text/javascript"></script><script src="run.codes_files/jquery_002.js"></script>
+        <script src="run.codes_files/bootstrap.js"></script>
+        <script src="run.codes_files/d3.js"></script>
+        <script src="run.codes_files/rickshaw.js"></script>
+        <script src="run.codes_files/jquery_003.js"></script>
+        <script src="run.codes_files/jasny-bootstrap.js"></script>
+        <script src="run.codes_files/summernote.js"></script>
+        <script src="run.codes_files/angular_002.js"></script>
+                <script src="run.codes_files/angular.js"></script>
+        <script src="run.codes_files/angular-flot.js"></script>
+        <script src="run.codes_files/moment-with-locales.js"></script>
+
+        <script src="run.codes_files/bootstrap-datetimepicker.js"></script>
+        <script src="run.codes_files/chosen.js"></script>
+        <script src="run.codes_files/ZeroClipboard.js"></script>
+
+        <script src="run.codes_files/highlight.js"></script>
+        <script src="run.codes_files/jquery.js"></script>
+        <script src="run.codes_files/jquery_004.js"></script>
+        <script src="run.codes_files/jquery_005.js"></script>
+        <script type="text/javascript" src="run.codes_files/public.js"></script>                        <!-- Piwik -->
+        <script type="text/javascript">
+            var _paq = _paq || [];
+            _paq.push(['setUserId','ph.u.chinen@gmail.com']);
+                        _paq.push(['setCustomVariable',1,"University","UNICAMP","visit"]);
+                        _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            (function() {
+                var u=(("https:" == document.location.protocol) ? "https" : "http") + "://piwik.run.codes/piwik/";
+                u = "https://ceramic.mysitehosted.com/~runcodes/piwik/";
+                _paq.push(['setTrackerUrl', u+'piwik.php']);
+                _paq.push(['setSiteId', 1]);
+                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+                g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+            })();
+        </script>
+        <noscript><p><img src="https://ceramic.mysitehosted.com/~runcodes/piwik/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+        <!-- End Piwik Code -->
+    
+</body></html>
