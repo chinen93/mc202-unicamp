@@ -52,7 +52,7 @@ int main(){
 
         bucketEqual = equalize(bucketSort, numPerGroups);
         printBucket(bucketEqual, beginGap, endGap);
-
+        
         /* Free memory */
         destroyBucketList(&bucketSort);
         destroyBucketList(&bucketEqual);

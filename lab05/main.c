@@ -14,15 +14,18 @@ int main(){
     Root *root;
     int ret;
     
-    root = getTreeSTDIO();
-    
-    printTree(root, 0);
-    
-    ret = operation(root);
-
-    printf("%d\n", ret);
-    
-    destroyRoot(&root);
+    root = getTreeSTDIO( );
+    if(root != NULL){
+        printTree(root, 0);
+        
+        ret = operation(root);
+        
+        printf("%d\n", ret);
+        destroyRoot(&root);
+    }else{
+        printf("Tree not found!\n");
+        exit(1);
+    }
     return 0;
 }
 
@@ -40,8 +43,8 @@ int operation(Root *root){
             return operation(root->left) / operation(root->right);
         }
     }
-    printf("[%d]", root->info-'0');
-    return root->info-'0';
+    printf("[%d]", root->number);
+    return root->number;
 }
 
 
@@ -53,7 +56,10 @@ void printTree(Root *root, int level){
 
     for(i=0; i<level; i++)
         printf("[..]");
-    printf("%c\n", root->info);
+    if(root->number == 0)
+        printf("%c\n", root->info);
+    else
+        printf("%d\n", root->number);
 
     if(root->left != NULL)
         printTree(root->left, level+1);

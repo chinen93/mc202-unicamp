@@ -9,6 +9,7 @@
 
 typedef struct Root{
     char info;
+    int  number;
     struct Root *left;
     struct Root *right;    
 } Root;

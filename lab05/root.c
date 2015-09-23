@@ -9,16 +9,29 @@
 
 Root *getTreeSTDIO(){
     Root *root = NULL;
-    char  info;
+    char  info = ' ';
+    int   i;
     scanf("%c", &info);
+    printf("[%c]", info);
     if(info == '('){
         root = createRoot();
         root->left = getTreeSTDIO();
+
+        
         scanf("%c", &info);
-        if(info == ')')
+        printf("[%c]", info);
+
+        /* Don't mess when leaving to left branch*/
+        while(info == ')'){
             scanf("%c", &info);
+            printf("[%c]", info);
+        }
+        
+        /* Verify which operation to do */
         if(info == '-'){
             scanf("%c", &info);
+            printf("[%c]", info);
+            
             switch(info){
             case '1':
                 info = '+';
@@ -33,20 +46,36 @@ Root *getTreeSTDIO(){
                 info = '/';
                 break;
             }
+            root->info = info;
+            
+            /* Don't create another root when going to right branch*/
+            while(info != '('){
+                scanf("%c", &info);
+                printf("[%c]", info);
+            }
+        }else{
+            root->number = info-'0';
+            /* Don't create another root when going to right branch*/
+            while(info != '('){
+                scanf("%c", &info);
+                printf("[%c]", info);
+                /* And see if the number is grater than 9 */
+                if(info != '('){
+                    root->number = root->number * 10;
+                    root->number += info-'0';
+                }
+            }
         }
-
-        root->info = info;
-        scanf("%c", &info);
         root->right = getTreeSTDIO();
-    }
-
+    }    
     return root;
 }
 
 Root *createRoot(){
     Root *root;
     root = (Root *)calloc(1, sizeof(Root));
-    root->info = 0;
+    root->info = ' ';
+    root->number = 0;
     root->left = NULL;
     root->right = NULL;
     return root;
