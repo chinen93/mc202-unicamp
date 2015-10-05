@@ -43,6 +43,7 @@ int operation(Root *root){
             return operation(root->left) / operation(root->right);
         }
     }
+
     return root->number;
 }
 
@@ -53,12 +54,12 @@ void printTree(Root *root, int level){
     if(root->right != NULL)
         printTree(root->right, level+1);
 
-    for(i=0; i<level; i++)
+    for(i=-1; i<level; i++)
         printf("[..]");
     if(root->number == 0)
-        printf("%c\n", root->info);
+        printf("'%c'\n", root->info);
     else
-        printf("%d\n", root->number);
+        printf("'%d'\n", root->number);
 
     if(root->left != NULL)
         printTree(root->left, level+1);
