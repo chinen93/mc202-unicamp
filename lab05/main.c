@@ -16,7 +16,7 @@ int main(){
     
     root = getTreeSTDIO( );
     if(root != NULL){
-        printTree(root, 0);
+        /*printTree(root, 0);*/
         
         ret = operation(root);
         
@@ -43,7 +43,6 @@ int operation(Root *root){
             return operation(root->left) / operation(root->right);
         }
     }
-    printf("[%d]", root->number);
     return root->number;
 }
 
