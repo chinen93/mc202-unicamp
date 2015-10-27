@@ -10,18 +10,19 @@ typedef struct Root {
     unsigned int id;
     int indexReg;
     int balance;
-    struct root *left;
-    struct root *right;
-} root;
+    struct Root *left;
+    struct Root *right;
+} Root;
 
-void insertNode(Root **root, int *heightGrows, Root *new);
-void removeNode(Root **root, int id, int *heightLowers);
+void insertNode(Root **root, int *heightChanged, Root *new);
+void removeNode(Root **root, int id, int *heightChanged);
 void rotationRight(Root **root);
 void rotationLeft(Root **root);
-void checkNodeRight(Root **root, int *heightGrows);
-void checkNodeLeft(Root **root, int *heightGrows);
+void checkNodeRight(Root **root, int *heightChanged, int isGrowing);
+void checkNodeLeft(Root **root, int *heightChanged, int isGrowing);
 void destroyRoot(Root **root);
 Root *createNode(int id, int indexReg);
+void printTreeAVL(Root *root, int level);
 
 
 #endif
