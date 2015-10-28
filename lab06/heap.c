@@ -1,8 +1,13 @@
+/* 
+   Nome: Pedro Hideaki Uiechi Chinen
+   RA  : 175828
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "heap.h"
 
-void swap(int *vector, int indexTo, int indexFrom);
+void swap(long int *vector, int indexTo, int indexFrom);
 
 /*
 int main(){
@@ -50,14 +55,14 @@ int main(){
 Heap *createHeap(int size){
     int i;
     Heap *heap = (Heap *)calloc(1, sizeof(Heap));
-    heap->vector = (int *)calloc(size, sizeof(int));
+    heap->vector = (long int *)calloc(size, sizeof(long int));
     for(i=0; i<size; i++)
 	heap->vector[i] = -1;
     heap->size = size;
     heap->last = 0;
 }
 
-void insertIntHeap(Heap **heap, int value){
+void insertLongIntHeap(Heap **heap, long int value){
     if ((*heap)->last < (*heap)->size){
 	(*heap)->vector[(*heap)->last] = value;
 	moveUp(heap, (*heap)->last);
@@ -66,8 +71,8 @@ void insertIntHeap(Heap **heap, int value){
     }
 }
 
-int removeIntHeap(Heap **heap){
-    int ret;
+long int removeLongIntHeap(Heap **heap){
+    long int ret;
     ret = (*heap)->vector[0];
     if((*heap)->last > 0){
 	(*heap)->vector[0] = (*heap)->vector[(*heap)->last-1];
@@ -82,7 +87,6 @@ int removeIntHeap(Heap **heap){
 
 void moveUp(Heap **heap, int index){
     int indexParent = (index-1)/2;
-    int intTrade;
     
     /* Heap em que o menor vem primeiro */
     if((*heap)->vector[index] < (*heap)->vector[indexParent]){
@@ -117,7 +121,7 @@ void moveDown(Heap **heap, int index){
     }
 }
 
-void swap(int *vector, int indexTo, int indexFrom){
+void swap(long int *vector, int indexTo, int indexFrom){
     int intTrade;
     intTrade = vector[indexFrom];
     vector[indexFrom] = vector[indexTo];
