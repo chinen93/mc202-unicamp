@@ -16,8 +16,6 @@ typedef struct Heap{
 Heap *createHeap(int size);
 void insertLongIntHeap(Heap **heap, long int value);
 long int  removeLongIntHeap(Heap **heap);
-void moveUp(Heap **heap, int index);
-void moveDown(Heap **heap, int index);
 void destroyHeap(Heap **heap);
 void printHeap(Heap *heap);
 

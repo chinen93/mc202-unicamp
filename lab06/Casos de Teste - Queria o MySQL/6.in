@@ -1,0 +1,9 @@
+database.bin
+6
+r 12
+i 12 A
+r 13
+i 13 B
+r 14
+i 14 C
+-1

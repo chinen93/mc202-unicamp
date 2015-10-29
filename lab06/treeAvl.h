@@ -17,13 +17,8 @@ typedef struct Root {
 void insertNodeTree(Root **root, Root *new);
 struct Root* removeNodeTree(Root **root, int id);
 struct Root* searchIdTree(Root **root, int id); 
-void rotationRight(Root **root);
-void rotationLeft(Root **root);
-void checkNodeRight(Root **root, int *heightChanged, int isGrowing);
-void checkNodeLeft(Root **root, int *heightChanged, int isGrowing);
 void destroyRoot(Root **root);
 Root *createNode(int id, long int indexReg);
 void printTreeAVL(Root *root, int level);
-
 
 #endif

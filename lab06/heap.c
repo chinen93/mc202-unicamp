@@ -8,6 +8,8 @@
 #include "heap.h"
 
 void swap(long int *vector, int indexTo, int indexFrom);
+void moveUp(Heap **heap, int index);
+void moveDown(Heap **heap, int index);
 
 /*
 int main(){

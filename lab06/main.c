@@ -41,18 +41,19 @@ int main(){
 	printf("File [%s] not found!", filename);
 	exit(0);
     }
+    /* Criar a Arvore AVL a partir do database binario 
+       e o HEAP com o tamanho de operacoes que serao executadas
+       pois nao sabemos de cara quantas remocoes ocorrerao */
     avl = createAvlFromBin(file, &qtdRecords);
     scanf("%d", &numOperations);
     heap = createHeap(numOperations);
-
-    printf("---\n");
-    printTreeAVL(avl, 0);
-    printf("------------\n");
-    
     do{
 	scanf("%c", &option);
 	switch(option){
 	case 'i':
+	    /* Ao INSERIR um indentificador sera passado e uma string
+	       Na string tratar para que o caracter '\n' nao apareca no banco de dados 
+	       colocar na avl o no com os dados passados */
 	    scanf("%d", &indentifier);
 	    fgets(data, 1000, stdin);
 	    slashNPosition = strchr(data, '\n');
@@ -62,6 +63,8 @@ int main(){
 	    numOperations--;
 	    break;
 	case 'r':
+	    /* Ao REMOVER um indentificador sera passado
+	       remover da avl o no com o indentificador */
 	    scanf("%d", &indentifier);
 	    removeRecord(&avl, &heap, indentifier);
 	    numOperations--;
@@ -74,9 +77,11 @@ int main(){
     printf("------------\n");
 
     scanf("%d", &orderedBalance);
+    /* Mostrar os dados dos nos com o balanceamento pedido */
     showNodesWithBalance(avl, orderedBalance, file);
-    /* Terminar programa desalocar memorias  */
 
+    
+    /* Terminar programa desalocar memorias  */
     destroyRoot(&avl);
     destroyHeap(&heap);
     fclose(file);
@@ -84,11 +89,13 @@ int main(){
 }
 
 Root *createAvlFromBin(FILE *file, int *qtdRecords){
-    /* Localização == em qual byte começa o registro */
+    /* Localização == em qual byte começa o registro 
+       Guardar a informacao de quantos registros o banco de dados tem */
     Root *node, *tree = NULL;
     Record *record;
     record = createRecord(0, "");
     (*qtdRecords) = 0;
+    /* Ler os registros e colocar na AVL  */
     while(fread(record, sizeof(Record), 1, file)){
 	node = createNode(record->id, (*qtdRecords)*sizeof(Record));
 	insertNodeTree(&tree, node);
@@ -114,26 +121,29 @@ void destroyRecord(Record **record){
 void insertRecord(Root **root, Heap **heap,
 		  Record *record, int *numReg, FILE *file){
     Root *node;
-    long int placeToInsert = removeLongIntHeap(heap);
+    long int placeToInsert;
 
+    /* Pega do Heap a menor posicao liberada do arquivo  */
+    placeToInsert = removeLongIntHeap(heap);
     if(placeToInsert != -1){
-	/* Colocar no meio do arquivo */
+	/* Se a posicao existe colocar no meio do arquivo */
 	fseek(file, placeToInsert, SEEK_SET);
 	node = createNode(record->id, placeToInsert);
     }else{
-	/* Colocar no final do arquivo */
-	/* incremente antes ou depois? */
+	/* Senao colocar no final do arquivo */
 	(*numReg)++;
 	fseek(file, (*numReg)*sizeof(Record), SEEK_SET);
 	node = createNode(record->id, (*numReg)*sizeof(Record));
     }
-    /* Colocar no arquivo com o fwrite */
+    
+    /* Escrever no arquivo com o fwrite 
+       colocar o novo no na AVL */
     fwrite(record, 1, sizeof(Record), file);
     insertNodeTree(root, node);
 }
 
 void removeRecord(Root **root, Heap **heap, int id){
-    Root *node;
+    Root *node = NULL;
     /* Remove da Arvore o id do Record */
     node = removeNodeTree(root, id);
     /*  Coloca no Heap o id do Record */

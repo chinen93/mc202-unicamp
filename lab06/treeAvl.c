@@ -10,37 +10,47 @@
 #define TRUE 1
 #define FALSE 0
 
-void findLowest(Root **root, Root **wanted);
+/* Funcoes Internas de AVL  */
+void findLowest(Root **root, Root **wanted, int *heightChanged);
 void insertNode(Root **root, int *heightChanged, Root *new);
 void removeNode(Root **root, int id, int *heightChanged, Root **remove);
+void rotationLeft(Root **root);
+void rotationRight(Root **root);
+void checkNodeRight(Root **root, int *heightChanged, int isGrowing);
+void checkNodeLeft(Root **root, int *heightChanged, int isGrowing);
 
-/*
+
 int main(){
     int *heightChanged;
     int option, value;
     Root *node, *tree=NULL;
+    int i, rand;
     
-    printf("--------\n");
-    node = createNode(10, 0);
-    insertNodeTree(&tree, node) ;
+    printf("------------\n");
+    node = createNode(99, 0);
+    insertNodeTree(&tree, node);
     printTreeAVL(tree, 0);
-    printf("--------\n");
-    node = createNode(15, 0);
-    insertNodeTree(&tree, node) ;
+    printf("------------\n");
+    node = createNode(97, 0);
+    insertNodeTree(&tree, node);
     printTreeAVL(tree, 0);
-    printf("--------\n");
-    node = createNode(5, 0);
-    insertNodeTree(&tree, node) ;
+    printf("------------\n");
+    node = createNode(103, 0);
+    insertNodeTree(&tree, node);
     printTreeAVL(tree, 0);
-    printf("--------\n");
-    node = createNode(12, 0);
-    insertNodeTree(&tree, node) ;
+    printf("------------\n");
+    node = createNode(98, 0);
+    insertNodeTree(&tree, node);
     printTreeAVL(tree, 0);
-    printf("--------\n");
-    node = createNode(20, 0);
-    insertNodeTree(&tree, node) ;
+    printf("------------\n");
+    node = createNode(102, 0);
+    insertNodeTree(&tree, node);
     printTreeAVL(tree, 0);
-    printf("--------\n");
+    printf("------------\n");
+    node = createNode(109, 0);
+    insertNodeTree(&tree, node);
+    printTreeAVL(tree, 0);
+    printf("------------\n");
     
     do{
 	printf("1 - inserir\n");
@@ -66,24 +76,28 @@ int main(){
 	    printTreeAVL(tree, 0);
 	    break;
 	}
-	printf("-------------\n");
     }while(option != 0);
 
     
     destroyRoot(&tree);
     return 0;
 }
-*/
 
 void insertNodeTree(Root **root, Root *new){
     int heightChanged;
     insertNode(root, &heightChanged, new);
+    printf("=========================== I [%d]\n", new->id);
+    printTreeAVL((*root), 0);
+    printf("------------\n");
 }
 
 Root* removeNodeTree(Root **root, int id){
     int heightChanged;
-    Root *node;
+    Root *node = NULL;
     removeNode(root, id, &heightChanged, &node);
+    printf("=========================== R [%d]\n", id);
+    printTreeAVL((*root), 0);
+    printf("------------\n");
     return node;
 }
 
@@ -92,8 +106,10 @@ void insertNode(Root **root, int *heightChanged, Root *new){
     if((*root) == NULL){
 	(*root) = new;
 	(*heightChanged) = TRUE;
-    }
-    if(new->id < (*root)->id){
+    }else if((*root)->id == new->id){
+	/* Tentar colocar o mesmo ID na arvore  */
+	(*heightChanged) = FALSE;
+    }else if(new->id < (*root)->id){
 	/* Inserir a esquerda e verificar balanceamento  */
 	insertNode(&(*root)->left, heightChanged, new);
 	if((*heightChanged))
@@ -146,12 +162,18 @@ void removeNode(Root **root, int id, int *heightChanged, Root **remove){
 	}
 	if((*remove)->left != NULL && (*remove)->right != NULL){
 	    /* No tem DOIS filhos */
-	    findLowest(&(*root)->right, &aux);
+	    findLowest(&(*root)->right, &aux, heightChanged);
 	    
 	    if((*remove)->right != NULL)
 		aux->right = (*remove)->right;
 	    aux->left = (*remove)->left;
 	    aux->balance = (*remove)->balance;
+	    
+	    /* TODO  Esse balanco esta dando errado quando retiro o no 103*/
+	    if((*heightChanged))
+		checkNodeRight(root, heightChanged, FALSE);
+
+	    
 	    (*remove)->right = NULL;
 	    (*remove)->left = NULL;
 	    (*root) = aux;
@@ -159,15 +181,19 @@ void removeNode(Root **root, int id, int *heightChanged, Root **remove){
     }
 }
 
-void findLowest(Root **root, Root **wanted){
-    int heightChanged;
-    heightChanged = TRUE;
+void findLowest(Root **root, Root **wanted, int *heightChanged){
     if((*root)->left == NULL){
 	(*wanted) = (*root);
 	(*root) = NULL;
+	(*heightChanged) = TRUE;
     }else{
-	findLowest(&(*root)->left, wanted);
-	checkNodeRight(root, &heightChanged, FALSE);
+	findLowest(&(*root)->left, wanted, heightChanged);
+	if((*wanted)->right != NULL){
+	    (*root)->left = (*wanted)->right;
+	    (*wanted)->right = NULL;
+	}
+	if((*heightChanged))
+	    checkNodeRight(root, heightChanged, FALSE);
     }
 }
 
@@ -272,17 +298,23 @@ void checkNodeRight(Root **root, int *heightChanged, int isGrowing){
 	    (*root)->right->balance = -1;
 	    rotationLeft(root);
 	    if(isGrowing)
-		(*heightChanged) = FALSE;
+		(*heightChanged) = TRUE; /*     */
 	    else
-		(*heightChanged) = TRUE;
+		(*heightChanged) = FALSE;
 	    break;
 	case -1:
 	    balanceRightLeft = (*root)->right->left->balance;
 	    switch(balanceRightLeft){
 	    case -1:
-		(*root)->balance = 1; /* Antes 0 */
-		(*root)->right->balance = 0; 
-		(*root)->right->left->balance = -1;
+		/* Contrario de checkLeft [-1][1][1]  */
+		if((*root)->left == NULL){
+		    (*root)->balance = 1;
+		    (*root)->right->balance = 0; 
+		}else{
+		    (*root)->balance = 0;
+		    (*root)->right->balance = 1; 
+		}
+		(*root)->right->left->balance = 0;
 		break;
 	    case 0 :
 		(*root)->balance = 0;
@@ -290,9 +322,15 @@ void checkNodeRight(Root **root, int *heightChanged, int isGrowing){
 		(*root)->right->left->balance = 0;
 		break;
 	    case 1:
-		(*root)->balance = 1;  /* Antes -1 */
-		(*root)->right->balance = 0;  /* Antes -1 */
-		(*root)->right->left->balance = -1;  /* Antes 0 */
+		/* Contrario de checkLeft [-1][1][-1]  */
+		if((*root)->left == NULL){
+		    (*root)->balance = 0; 
+		    (*root)->right->balance = 1;
+		}else{
+		    (*root)->balance = -1; 
+		    (*root)->right->balance = 0;
+		}
+		(*root)->right->left->balance = 0; 
 		break;
 	    }
 	    rotationRight(&(*root)->right);
@@ -342,17 +380,23 @@ void checkNodeLeft(Root **root, int *heightChanged, int isGrowing){
 	    (*root)->right->balance = 1;
 	    rotationLeft(root);
 	    if(isGrowing)
-		(*heightChanged) = FALSE;
-	    else
 		(*heightChanged) = TRUE;
+	    else
+		(*heightChanged) = FALSE;
 	    break;
 	case 1:
 	    balanceLeftRight = (*root)->left->right->balance;
 	    switch(balanceLeftRight){
 	    case -1:
-		(*root)->balance = -1; /* Antes 0 */
-		(*root)->left->balance = 0; 
-		(*root)->left->right->balance = 1; 
+		/* Contrario de checkRight [1][-1][1]  */
+		if((*root)->right == NULL){
+		    (*root)->balance = 0;
+		    (*root)->left->balance = -1;
+		}else{
+		    (*root)->balance = 1;
+		    (*root)->left->balance = 0;		    
+		}
+		(*root)->left->right->balance = 0; 
 		break;
 	    case 0 :
 		(*root)->balance = 0;
@@ -360,9 +404,15 @@ void checkNodeLeft(Root **root, int *heightChanged, int isGrowing){
 		(*root)->left->right ->balance = 0;
 		break;
 	    case 1:
-		(*root)->balance = -1;  /* Antes 0 */
-		(*root)->left->balance = 0;  /* Antes -1 */
-		(*root)->left->right->balance = 1;  /* Antes 0 */
+		/* Contrario de checkRight [1][-1][-1]  */
+		if((*root)->right == NULL){
+		    (*root)->balance = -1;
+		    (*root)->left->balance = 0;
+		}else{
+		    (*root)->balance = 0;
+		    (*root)->left->balance = -1;
+		}
+		(*root)->left->right->balance = 0; 
 		break;
 	    }
 	    rotationLeft(&(*root)->left);
