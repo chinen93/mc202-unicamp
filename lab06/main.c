@@ -31,7 +31,7 @@ int main(){
     Record *record;
     char data[1000];
     int  numOperations = 0, orderedBalance, indentifier;
-    int qtdRecords;
+    int qtdRecords = 0;
     char *slashNPosition;
 
     /* Ler o arquivo binario  */
@@ -93,8 +93,7 @@ Root *createAvlFromBin(FILE *file, int *qtdRecords){
        Guardar a informacao de quantos registros o banco de dados tem */
     Root *node, *tree = NULL;
     Record *record;
-    record = createRecord(0, "");
-    (*qtdRecords) = 0;
+    record = createRecord(0, "");s
     /* Ler os registros e colocar na AVL  */
     while(fread(record, sizeof(Record), 1, file)){
 	node = createNode(record->id, (*qtdRecords)*sizeof(Record));
