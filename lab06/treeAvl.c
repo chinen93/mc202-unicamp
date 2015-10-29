@@ -19,7 +19,7 @@ void rotationRight(Root **root);
 void checkNodeRight(Root **root, int *heightChanged, int isGrowing);
 void checkNodeLeft(Root **root, int *heightChanged, int isGrowing);
 
-
+/*
 int main(){
     int *heightChanged;
     int option, value;
@@ -82,22 +82,17 @@ int main(){
     destroyRoot(&tree);
     return 0;
 }
+*/
 
 void insertNodeTree(Root **root, Root *new){
     int heightChanged;
     insertNode(root, &heightChanged, new);
-    printf("=========================== I [%d]\n", new->id);
-    printTreeAVL((*root), 0);
-    printf("------------\n");
 }
 
 Root* removeNodeTree(Root **root, int id){
     int heightChanged;
     Root *node = NULL;
     removeNode(root, id, &heightChanged, &node);
-    printf("=========================== R [%d]\n", id);
-    printTreeAVL((*root), 0);
-    printf("------------\n");
     return node;
 }
 
@@ -128,7 +123,7 @@ void removeNode(Root **root, int id, int *heightChanged, Root **remove){
     /* Procura o id na arvore  */
     if((*root) == NULL){
 	(*heightChanged) = FALSE;
-	return NULL;
+	return ;
     }
     if(id < (*root)->id){
 	/* Remover esquerda == Adicionar na direita */
@@ -170,8 +165,9 @@ void removeNode(Root **root, int id, int *heightChanged, Root **remove){
 	    aux->balance = (*remove)->balance;
 	    
 	    /* TODO  Esse balanco esta dando errado quando retiro o no 103*/
-	    if((*heightChanged))
-		checkNodeRight(root, heightChanged, FALSE);
+	    if((*heightChanged)){
+		checkNodeLeft(&aux, heightChanged, FALSE);
+	    }
 
 	    
 	    (*remove)->right = NULL;
@@ -256,7 +252,7 @@ void printTreeAVL(Root *root, int level){
 	
 	for(i=0;i<level;i++)
 	    printf("[..]");
-	printf("{%d/%d}\n", root->id, root->balance);
+	printf("{%d/%ld/%d}\n", root->id, root->indexReg, root->balance);
 	
 	if(root->left != NULL)
 	    printTreeAVL(root->left, level+1);

@@ -54,7 +54,7 @@ int main(){
 	    /* Ao INSERIR um indentificador sera passado e uma string
 	       Na string tratar para que o caracter '\n' nao apareca no banco de dados 
 	       colocar na avl o no com os dados passados */
-	    scanf("%d", &indentifier);
+	    scanf("%d ", &indentifier);
 	    fgets(data, 1000, stdin);
 	    slashNPosition = strchr(data, '\n');
 	    (*slashNPosition) = '\0';
@@ -131,13 +131,18 @@ void insertRecord(Root **root, Heap **heap,
 	node = createNode(record->id, placeToInsert);
     }else{
 	/* Senao colocar no final do arquivo */
-	(*numReg)++;
 	fseek(file, (*numReg)*sizeof(Record), SEEK_SET);
+	(*numReg)++;
 	node = createNode(record->id, (*numReg)*sizeof(Record));
     }
     
     /* Escrever no arquivo com o fwrite 
        colocar o novo no na AVL */
+
+    /* TODO: O endereço da porra toda esta errado 1 a mais
+       Sr Qularque Quenti esta errado por 1 sizeof(Record)
+     */
+    
     fwrite(record, 1, sizeof(Record), file);
     insertNodeTree(root, node);
 }
@@ -149,6 +154,8 @@ void removeRecord(Root **root, Heap **heap, int id){
     /*  Coloca no Heap o id do Record */
     if(node != NULL){
 	insertLongIntHeap(heap, node->indexReg);
+	printf("[%d]\n", id); 
+	printHeap((*heap));
 	free(node);
     }
 }
