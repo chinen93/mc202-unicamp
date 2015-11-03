@@ -47,12 +47,20 @@ int main(){
     avl = createAvlFromBin(file, &qtdRecords);
     scanf("%d", &numOperations);
     heap = createHeap(numOperations);
+
+    /*
+    printf("--- ANTES ------\n");
+    printTreeAVL(avl, 0);
+    printf("--------------------\n");
+    */
+    
     do{
 	scanf("%c", &option);
 	switch(option){
 	case 'i':
 	    /* Ao INSERIR um indentificador sera passado e uma string
-	       Na string tratar para que o caracter '\n' nao apareca no banco de dados 
+	       Na string tratar para que o caracter '\n' 
+	       nao apareca no banco de dados 
 	       colocar na avl o no com os dados passados */
 	    scanf("%d ", &indentifier);
 	    fgets(data, 1000, stdin);
@@ -72,10 +80,12 @@ int main(){
 	}
     }while(numOperations > 0);
 
-    printf("---\n");
+    /*
+    printf("--- DEPOIS ------\n");
     printTreeAVL(avl, 0);
-    printf("------------\n");
-
+    printf("--------------------\n");
+    */
+    
     scanf("%d", &orderedBalance);
     /* Mostrar os dados dos nos com o balanceamento pedido */
     showNodesWithBalance(avl, orderedBalance, file);
@@ -93,13 +103,16 @@ Root *createAvlFromBin(FILE *file, int *qtdRecords){
        Guardar a informacao de quantos registros o banco de dados tem */
     Root *node, *tree = NULL;
     Record *record;
-    record = createRecord(0, "");s
+    record = createRecord(0, "");
     /* Ler os registros e colocar na AVL  */
     while(fread(record, sizeof(Record), 1, file)){
 	node = createNode(record->id, (*qtdRecords)*sizeof(Record));
 	insertNodeTree(&tree, node);
 	(*qtdRecords)++;
     }
+    /* N registros, mas como comeca do 0
+       tem N-1 registros */
+    (*qtdRecords)--;
     destroyRecord(&record);
     return tree;
 }
@@ -130,18 +143,13 @@ void insertRecord(Root **root, Heap **heap,
 	node = createNode(record->id, placeToInsert);
     }else{
 	/* Senao colocar no final do arquivo */
-	fseek(file, (*numReg)*sizeof(Record), SEEK_SET);
 	(*numReg)++;
+	fseek(file, (*numReg)*sizeof(Record), SEEK_SET);
 	node = createNode(record->id, (*numReg)*sizeof(Record));
     }
     
     /* Escrever no arquivo com o fwrite 
        colocar o novo no na AVL */
-
-    /* TODO: O endereço da porra toda esta errado 1 a mais
-       Sr Qularque Quenti esta errado por 1 sizeof(Record)
-     */
-    
     fwrite(record, 1, sizeof(Record), file);
     insertNodeTree(root, node);
 }
@@ -153,8 +161,6 @@ void removeRecord(Root **root, Heap **heap, int id){
     /*  Coloca no Heap o id do Record */
     if(node != NULL){
 	insertLongIntHeap(heap, node->indexReg);
-	printf("[%d]\n", id); 
-	printHeap((*heap));
 	free(node);
     }
 }

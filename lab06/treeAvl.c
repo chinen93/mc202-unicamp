@@ -164,12 +164,10 @@ void removeNode(Root **root, int id, int *heightChanged, Root **remove){
 	    aux->left = (*remove)->left;
 	    aux->balance = (*remove)->balance;
 	    
-	    /* TODO  Esse balanco esta dando errado quando retiro o no 103*/
 	    if((*heightChanged)){
 		checkNodeLeft(&aux, heightChanged, FALSE);
 	    }
 
-	    
 	    (*remove)->right = NULL;
 	    (*remove)->left = NULL;
 	    (*root) = aux;
@@ -294,15 +292,16 @@ void checkNodeRight(Root **root, int *heightChanged, int isGrowing){
 	    (*root)->right->balance = -1;
 	    rotationLeft(root);
 	    if(isGrowing)
-		(*heightChanged) = TRUE; /*     */
+		(*heightChanged) = TRUE; 
 	    else
 		(*heightChanged) = FALSE;
 	    break;
 	case -1:
 	    balanceRightLeft = (*root)->right->left->balance;
+	    
 	    switch(balanceRightLeft){
 	    case -1:
-		/* Contrario de checkLeft [-1][1][1]  */
+	        /*Contrario de checkLeft [-1][1][1]  */
 		if((*root)->left == NULL){
 		    (*root)->balance = 1;
 		    (*root)->right->balance = 0; 
@@ -318,7 +317,7 @@ void checkNodeRight(Root **root, int *heightChanged, int isGrowing){
 		(*root)->right->left->balance = 0;
 		break;
 	    case 1:
-		/* Contrario de checkLeft [-1][1][-1]  */
+		/*Contrario de checkLeft [-1][1][-1] */  
 		if((*root)->left == NULL){
 		    (*root)->balance = 0; 
 		    (*root)->right->balance = 1;
@@ -331,6 +330,7 @@ void checkNodeRight(Root **root, int *heightChanged, int isGrowing){
 	    }
 	    rotationRight(&(*root)->right);
 	    rotationLeft(root);
+	    
 	    if(isGrowing)
 		(*heightChanged) = FALSE;
 	    else
@@ -384,7 +384,7 @@ void checkNodeLeft(Root **root, int *heightChanged, int isGrowing){
 	    balanceLeftRight = (*root)->left->right->balance;
 	    switch(balanceLeftRight){
 	    case -1:
-		/* Contrario de checkRight [1][-1][1]  */
+		/* Contrario de checkRight [1][-1][1] */
 		if((*root)->right == NULL){
 		    (*root)->balance = 0;
 		    (*root)->left->balance = -1;
@@ -400,7 +400,7 @@ void checkNodeLeft(Root **root, int *heightChanged, int isGrowing){
 		(*root)->left->right ->balance = 0;
 		break;
 	    case 1:
-		/* Contrario de checkRight [1][-1][-1]  */
+		/* Contrario de checkRight [1][-1][-1] */
 		if((*root)->right == NULL){
 		    (*root)->balance = -1;
 		    (*root)->left->balance = 0;

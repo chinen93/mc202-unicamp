@@ -141,7 +141,7 @@ void printHeap(Heap *heap){
     printf("(%d/%d)", heap->size, heap->last);
     for(i=0; i<heap->size; i++){
 	if(heap->vector[i] != -1)
-	    printf("[%d]", heap->vector[i]);
+	    printf("[%ld]", heap->vector[i]);
 	else
 	    printf("[-]");
     }

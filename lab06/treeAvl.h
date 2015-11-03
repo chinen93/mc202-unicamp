@@ -8,7 +8,7 @@
 
 typedef struct Root {
     unsigned int id;
-    int indexReg;
+    long int indexReg;
     int balance;
     struct Root *left;
     struct Root *right;
